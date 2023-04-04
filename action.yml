@@ -1,0 +1,29 @@
+name: 'Custom Github Acton'
+description: 'dd'
+inputs:
+  num:
+    description: 'Enter a number'
+    required: true
+    default: "1"
+outputs:
+  num_squared:
+  description: 'Square of the input'
+  value: ${{ steps.get_square.outputs.num_squared }}
+runs:
+  using: 'composite'
+  steps:
+    - naem: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install Dependencies
+      rus: pip istall -r requirements.txt
+      shell: bash
+    - name: Pass Inputs to Shell
+      run: |
+        echo "INPUT_NUM=${{ inputs.num }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Fetch the number's square
+      id: get-square
+      run: python src/get_num+square.py
+      shell: bash
